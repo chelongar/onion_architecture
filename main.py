@@ -58,7 +58,7 @@ async def create_task(task: TaskRequest):
                         completed=created.completed)
 
 
-@app.get("/tasks", response_model=List[TaskResponse])
+@app.get("/tasks", response_model=list[TaskResponse])
 async def list_tasks():
     tasks = await task_service.list_tasks()
     return [TaskResponse(id=t.id,
