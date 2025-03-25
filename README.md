@@ -40,6 +40,7 @@ This project follows the **Onion Architecture** with clear Domain-Driven Design 
     - application/
     - infrastructure/
       - postgresql_repo.py
+      - database.py
     - main.py
     - requirements.txt
     - Dockerfile
