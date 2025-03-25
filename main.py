@@ -2,25 +2,22 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from uuid import UUID
 from datetime import datetime
-import os
-
-from databases import Database
-from typing import List
-
-from application.task_service import TaskService
-from infrastructure.postgresql_repo import PostgresTaskRepository, tasks_table, metadata
-
-import sqlalchemy
 import uvicorn
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@localhost:5432/tododb")
-database = Database(DATABASE_URL)
-engine = sqlalchemy.create_engine(DATABASE_URL.replace("+asyncpg", ""))
-metadata.create_all(engine)
+from application.task_service import TaskService
+from infrastructure.postgresql_repo import PostgresTaskRepository
+from infrastructure.database import database, init_db
 
-app = FastAPI(title="ToDo App - Onion Architecture + DDD + Postgres")
+'''
+    Initialize DB schema
+'''
+init_db()
 
-# Dependency Injection
+app = FastAPI(title="ToDo App - Onion Architecture + Domain-Driven Design")
+
+'''
+    Dependency Injection
+'''
 task_repo = PostgresTaskRepository(database)
 task_service = TaskService(task_repo)
 
