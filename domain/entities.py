@@ -1,4 +1,3 @@
-# domain/entities.py
 from dataclasses import dataclass
 from uuid import UUID, uuid4
 from datetime import datetime, timezone
@@ -18,8 +17,9 @@ class Deadline:
     value: datetime
 
     def __post_init__(self):
+        now = datetime.now(timezone.utc)
         self.value = self.value.astimezone(timezone.utc)
-        if self.value < datetime.now(timezone.utc):
+        if self.value < now:
             raise ValueError("Deadline cannot be in the past")
 
 
